@@ -1,0 +1,6 @@
+# Combined requirements for both subfolders.  Equivalent to
+#   pip install -r NIPS_SUBMISSION_CODE/requirements.txt
+#   pip install -r NIPS_SUBMISSION_EVAL/requirements.txt
+openai>=1.50.0
+python-dotenv>=1.0.0
+google-genai>=0.3.0

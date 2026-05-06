@@ -1,0 +1,5 @@
+openai>=1.50.0
+python-dotenv>=1.0.0
+# Optional: only required when --model gemini-* is used by
+# identifier_profile_preservation.py.
+google-genai>=0.3.0

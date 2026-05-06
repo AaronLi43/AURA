@@ -1,0 +1,42 @@
+# ── Secrets ─────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Pipeline state ──────────────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+
+# ── Local outputs ───────────────────────────────────────────────────────
+NIPS_SUBMISSION_CODE/output/
+NIPS_SUBMISSION_CODE/responses_*/
+NIPS_SUBMISSION_EVAL/identifier_profile_preservation_results/
+NIPS_SUBMISSION_EVAL/code_fact/
+NIPS_SUBMISSION_EVAL/web_search_*.json
+NIPS_SUBMISSION_EVAL/responses_*/
+
+# ── Python ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.eggs/
+*.egg-info/
+*.egg
+build/
+dist/
+pip-wheel-metadata/
+
+# ── Virtualenvs ─────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Editor / OS ─────────────────────────────────────────────────────────
+.DS_Store
+.idea/
+.vscode/
+*.swp
+.ipynb_checkpoints/
