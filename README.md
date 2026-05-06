@@ -139,9 +139,7 @@ The ad-hoc artifacts produced by both subfolders are sensitive:
 
 Implementation builds on the OpenAI Responses API, the OpenRouter
 inference layer, and the Tavily web-search API for adaptive-attribute
-discovery.  The eight base privacy attributes and the
-masker / anonymizer prompt templates are derived from
-[Staab et al. (2025)](https://arxiv.org/abs/2502.11070).
+discovery. 
 
 ## Citation
 

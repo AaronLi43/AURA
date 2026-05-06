@@ -1,4 +1,4 @@
-# NIPS_SUBMISSION_CODE
+# CODE
 
 Reference implementation of the **AURA** privacy-rewriting pipeline used in
 our NeurIPS 2026 submission.  Given a JSONL of conversation transcripts,

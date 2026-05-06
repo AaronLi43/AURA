@@ -1,4 +1,4 @@
-# NIPS_SUBMISSION_EVAL
+# EVAL
 
 Companion evaluation harness for the AURA privacy-rewriting release in
 [`../NIPS_SUBMISSION_CODE`](../NIPS_SUBMISSION_CODE).  These scripts measure
@@ -43,19 +43,7 @@ that we cannot redistribute:
 | `code_fact/recoverability/<config>/<sample>.json`, `profile/recoverability/<config>/<sample>.json` | Same `evidence_quote` issue, plus filenames encode internal `transcript_id` slugs. |
 | `utility_grid/<config>/<sample>/grid.json`, `utility_grid/summary.json` | Filenames and JSON keys encode the internal `transcript_id`. |
 
-`transcript_id` is used by every script as a join key only — it is never
-inspected as a substring or scored on.  To regenerate these artifacts on a
-private workspace, replace the slug with a deterministic alias of your
-choice, e.g.
 
-```python
-alias = "S" + hashlib.sha1(real_id.encode()).hexdigest()[:8]
-```
-
-and apply it consistently to filenames, CSV columns, and JSON fields.  Every
-shipped script normalizes IDs through
-`identifier_profile_preservation.normalize_dataset_id`, so aliasing is a
-drop-in change.
 
 The shipped `input/adaptive_attri/example_rewritten.csv` contains two
 fully synthetic transcripts to make `direct_intent.py` immediately runnable
