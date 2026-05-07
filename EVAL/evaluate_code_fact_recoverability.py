@@ -578,7 +578,7 @@ def main() -> int:
     if load_dotenv is not None:
         for candidate in (
             THIS_DIR / ".env",
-            THIS_DIR.parent / "NIPS_SUBMISSION_CODE" / ".env",
+            THIS_DIR.parent / "AURA" / ".env",
             THIS_DIR.parent / ".env",
         ):
             if candidate.exists():

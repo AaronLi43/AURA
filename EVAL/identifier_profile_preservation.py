@@ -2703,7 +2703,7 @@ def main() -> int:
     if load_dotenv is not None:
         for candidate in (
             REPO_ROOT / ".env",
-            REPO_ROOT.parent / "NIPS_SUBMISSION_CODE" / ".env",
+            REPO_ROOT.parent / "AURA" / ".env",
             REPO_ROOT.parent / ".env",
         ):
             if candidate.exists():

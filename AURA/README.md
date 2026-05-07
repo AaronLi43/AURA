@@ -23,7 +23,7 @@ designed to be invoked directly.
 ## Setup
 
 ```bash
-cd NIPS_SUBMISSION_CODE
+cd AURA
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
@@ -125,5 +125,5 @@ If you reproduce the paper numbers on a private workspace, the resulting
 treated as sensitive — they may contain or be keyed by content that is not
 fit for public release.
 
-See [`../NIPS_SUBMISSION_EVAL/README.md`](../NIPS_SUBMISSION_EVAL/README.md)
+See [`../EVAL/README.md`](../EVAL/README.md)
 for the matching re-identification and utility evaluation harness.

@@ -1,7 +1,7 @@
 # EVAL
 
 Companion evaluation harness for the AURA privacy-rewriting release in
-[`../NIPS_SUBMISSION_CODE`](../NIPS_SUBMISSION_CODE).  These scripts measure
+[`../AURA`](../AURA).  These scripts measure
 **re-identification risk** and **utility preservation** on rewritten
 transcripts.
 
