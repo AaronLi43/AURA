@@ -127,7 +127,7 @@ The ad-hoc artifacts produced by both subfolders are sensitive:
 * **Reference fact files.** The eval harness writes per-transcript
   `excerpt`, `example_quote`, and `evidence_quote` fields that are
   verbatim transcript spans.  See
-  [`NIPS_SUBMISSION_EVAL/README.md`](NIPS_SUBMISSION_EVAL/README.md#privacy-data-we-do-not-ship)
+  [`EVAL/README.md`](EVAL/README.md#privacy-data-we-do-not-ship)
   for the recommended aliasing strategy when you regenerate them on a
   private workspace.
 
