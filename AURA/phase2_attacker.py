@@ -198,7 +198,7 @@ def build_vulnerability_prompt(
         "Return JSON:\n{\n"
         '  "AGE": {"leaked": bool, "certainty_delta": int, "severity": int, '
         '"evidence_spans": [...], "explanation": "..."},\n'
-        "  ... (all 8 attributes)\n"
+        "  ... (all attributes)\n"
         '  "total_severity": <sum of all severity scores>\n'
         "}\n"
     )
