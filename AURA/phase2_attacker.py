@@ -1,7 +1,7 @@
 """Phase 2a: Attacker — adversarial inference on rewritten text.
 
 The attacker only sees the rewritten text (simulating an external adversary)
-and attempts to infer the 8 PII attributes. Its output is compared with the
+and attempts to infer the PII attributes. Its output is compared with the
 original inferences to identify residual privacy leaks.
 """
 from __future__ import annotations
