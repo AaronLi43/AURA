@@ -20,7 +20,7 @@ education, relationship status, income, place of birth).
 
 The design and empirical results are described in our NeurIPS 2026 paper.
 
-## Repository layout
+## Repository layout 
 
 ```
 NIPS_CODE/

@@ -190,7 +190,7 @@ def build_vulnerability_prompt(
         "REWRITE INFERENCES (from the rewritten text):\n"
         f"{json.dumps(rewrite_inferences, indent=2)}\n\n"
         f"REWRITTEN TEXT:\n{rewritten_text}\n\n"
-        "For each of the 8 attributes, determine:\n"
+        "For each of the attributes, determine:\n"
         "- leaked: true/false (did the rewrite fail to neutralize this attribute?)\n"
         "- certainty_delta: (original_certainty - rewrite_certainty)\n"
         "- evidence_spans: exact verbatim spans from REWRITTEN TEXT that enable inference\n"
