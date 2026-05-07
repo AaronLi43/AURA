@@ -15,7 +15,7 @@ transcripts.
 ## Folder layout
 
 ```
-NIPS_SUBMISSION_EVAL/
+EVAL/
 ├── README.md                              # this file
 ├── _compat.py                             # vendored constants and CSV helpers
 ├── direct_intent.py                       # web-search re-id over a CSV of transcripts
@@ -52,15 +52,15 @@ without supplying any private data.
 ## Setup
 
 ```bash
-cd NIPS_SUBMISSION_EVAL
+cd EVAL
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 # Add OPENAI_API_KEY (and optionally GEMINI_API_KEY) to:
-#   ../NIPS_SUBMISSION_CODE/.env   (loaded automatically), OR
+#   ../AURA/.env   (loaded automatically), OR
 #   ./.env                         (also auto-discovered)
-cp ../NIPS_SUBMISSION_CODE/.env.example ../NIPS_SUBMISSION_CODE/.env
-$EDITOR ../NIPS_SUBMISSION_CODE/.env
+cp ../AURA/.env.example ../AURA/.env
+$EDITOR ../AURA/.env
 ```
 
 ## Usage

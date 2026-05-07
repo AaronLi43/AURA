@@ -29,7 +29,7 @@ NIPS_CODE/
 ├── .gitignore
 ├── requirements.txt              # combined deps for both subfolders
 │
-├── NIPS_SUBMISSION_CODE/         # the AURA pipeline itself
+├── AURA/         # the AURA pipeline itself
 │   ├── README.md
 │   ├── requirements.txt
 │   ├── .env.example
@@ -43,7 +43,7 @@ NIPS_CODE/
 │   ├── db.py
 │   └── input/example_transcripts.jsonl   # synthetic example
 │
-└── NIPS_SUBMISSION_EVAL/         # re-identification & utility evaluation
+└── EVAL/         # re-identification & utility evaluation
     ├── README.md
     ├── requirements.txt
     ├── _compat.py                # vendored constants and CSV helpers
@@ -53,8 +53,8 @@ NIPS_CODE/
     └── input/adaptive_attri/example_rewritten.csv   # synthetic example
 ```
 
-The two subfolders are independent: `NIPS_SUBMISSION_EVAL/` operates on
-CSVs and JSONs and never imports from `NIPS_SUBMISSION_CODE/`.
+The two subfolders are independent: `EVAL/` operates on
+CSVs and JSONs and never imports from `AURA/`.
 
 ## Quick start
 
@@ -67,25 +67,25 @@ pip install -r requirements.txt
 
 # 2. Configure API keys.  The pipeline needs OPENAI_API_KEY at minimum;
 #    OpenRouter / Gemini are only needed if you exercise those code paths.
-cp NIPS_SUBMISSION_CODE/.env.example NIPS_SUBMISSION_CODE/.env
-$EDITOR NIPS_SUBMISSION_CODE/.env
+cp AURA/.env.example AURA/.env
+$EDITOR AURA/.env
 
 # 3. Run the AURA pipeline on the shipped synthetic transcripts.
-cd NIPS_SUBMISSION_CODE
+cd AURA
 python pipeline.py --reset-db
 # → output/<name-prefix>_rewritten.csv
 
 # 4. Probe the rewrite with web-search re-id.
-cd ../NIPS_SUBMISSION_EVAL
-python direct_intent.py ../NIPS_SUBMISSION_CODE/output/<name-prefix>_rewritten.csv
+cd ../EVAL
+python direct_intent.py ../AURA/output/<name-prefix>_rewritten.csv
 # → web_search_<name-prefix>_rewritten.csv.json
 ```
 
 For details on every CLI flag, see the per-folder READMEs:
 
-* [`NIPS_SUBMISSION_CODE/README.md`](AURA/README.md) — pipeline,
+* [`AURA/README.md`](AURA/README.md) — pipeline,
   adaptive variants, and OpenRouter / Qwen on-device runs.
-* [`NIPS_SUBMISSION_EVAL/README.md`](EVAL/README.md) —
+* [`EVAL/README.md`](EVAL/README.md) —
   re-identification and utility evaluation harness.
 
 ## Reproducing the paper
