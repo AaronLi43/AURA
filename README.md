@@ -59,7 +59,7 @@ CSVs and JSONs and never imports from `AURA/`.
 ## Quick start
 
 ```bash
-git clone <this-repo> aura && cd aura/NIPS_CODE
+git clone <this-repo> aura && cd AURA/AURA
 
 # 1. Install dependencies (Python 3.10+).
 python -m venv .venv && source .venv/bin/activate
