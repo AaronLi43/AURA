@@ -9,12 +9,12 @@
 *.db-wal
 
 # ── Local outputs ───────────────────────────────────────────────────────
-NIPS_SUBMISSION_CODE/output/
-NIPS_SUBMISSION_CODE/responses_*/
-NIPS_SUBMISSION_EVAL/identifier_profile_preservation_results/
-NIPS_SUBMISSION_EVAL/code_fact/
-NIPS_SUBMISSION_EVAL/web_search_*.json
-NIPS_SUBMISSION_EVAL/responses_*/
+AURA/output/
+AURA/responses_*/
+EVAL/identifier_profile_preservation_results/
+EVAL/code_fact/
+EVAL/web_search_*.json
+EVAL/responses_*/
 
 # ── Python ──────────────────────────────────────────────────────────────
 __pycache__/
