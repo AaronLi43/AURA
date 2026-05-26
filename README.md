@@ -35,7 +35,6 @@ search to discover transcript-specific privacy attributes that are not
 covered by the eight base attributes (age, sex, location, occupation,
 education, relationship status, income, place of birth).
 
-The design and empirical results are described in our NeurIPS 2026 paper.
 
 ## 📁 Repository layout 
 
