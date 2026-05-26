@@ -1,6 +1,5 @@
 # AURA: Adaptive Utility-preserving Re-identification-resistant Anonymization
 
-[![Paper](https://img.shields.io/badge/arXiv-2602.22769-b31b1b.svg)](https://arxiv.org/abs/2602.22769)
 [![Python](https://img.shields.io/badge/python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![OpenAI](https://img.shields.io/badge/openai-%3E%3D1.50.0-412991?logo=openai&logoColor=white)](https://pypi.org/project/openai/)
 [![python-dotenv](https://img.shields.io/badge/python--dotenv-%3E%3D1.0.0-000000?logo=python&logoColor=white)](https://pypi.org/project/python-dotenv/)
