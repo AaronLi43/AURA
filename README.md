@@ -1,10 +1,28 @@
 # AURA: Adaptive Utility-preserving Re-identification-resistant Anonymization
 
-> Reference code for the NeurIPS 2026 submission.
+[![Paper](https://img.shields.io/badge/arXiv-2602.22769-b31b1b.svg)](https://arxiv.org/abs/2602.22769)
+[![Python](https://img.shields.io/badge/python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![OpenAI](https://img.shields.io/badge/openai-%3E%3D1.50.0-412991?logo=openai&logoColor=white)](https://pypi.org/project/openai/)
+[![python-dotenv](https://img.shields.io/badge/python--dotenv-%3E%3D1.0.0-000000?logo=python&logoColor=white)](https://pypi.org/project/python-dotenv/)
+[![Google GenAI](https://img.shields.io/badge/google--genai-%3E%3D0.3.0-4285F4?logo=google&logoColor=white)](https://pypi.org/project/google-genai/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-| [About](#about) | [Repository layout](#repository-layout) | [Quick start](#quick-start) | [Reproducing the paper](#reproducing-the-paper) | [Privacy notes](#privacy-notes) | [Citation](#citation) |
+![aura_teaser](teaser.png)
 
-## About
+## 📚 Contents
+
+- [ℹ️ About](#about)
+- [📁 Repository layout](#repository-layout)
+- [🚀 Quick start](#quick-start)
+- [🔬 Reproducing the paper](#reproducing-the-paper)
+- [🔒 Privacy notes](#privacy-notes)
+- [🙏 Acknowledgements](#acknowledgements)
+- [📝 Citation](#citation)
+- [📄 License](#license)
+
+
+
+## ℹ️ About
 
 This repository contains the implementation and evaluation harness for
 **AURA**, a privacy-rewriting pipeline that anonymizes interview-style
@@ -20,7 +38,7 @@ education, relationship status, income, place of birth).
 
 The design and empirical results are described in our NeurIPS 2026 paper.
 
-## Repository layout 
+## 📁 Repository layout 
 
 ```
 aura/                             # repo root (name from `git clone`)
@@ -56,7 +74,7 @@ aura/                             # repo root (name from `git clone`)
 The two subfolders are independent: `EVAL/` operates on
 CSVs and JSONs and never imports from `AURA/`.
 
-## Quick start
+## 🚀 Quick start
 
 All commands below assume you cloned into a folder named `aura` and are
 using **Python 3.10+**.  On macOS, use `python3` / `pip3` if `python` /
@@ -180,7 +198,7 @@ For details on every CLI flag, see the per-folder READMEs:
 * [`EVAL/README.md`](EVAL/README.md) —
   re-identification and utility evaluation harness.
 
-## Reproducing the paper
+## 🔬 Reproducing the paper
 
 The paper reports three families of results, each driven by code in this
 repository:
@@ -202,9 +220,9 @@ repository:
 
 The original Anthropic transcripts and the per-transcript reference fact
 files used in the paper are not redistributed; see
-[Privacy notes](#privacy-notes) below.
+[🔒 Privacy notes](#privacy-notes) below.
 
-## Privacy notes
+## 🔒 Privacy notes
 
 The ad-hoc artifacts produced by both subfolders are sensitive:
 
@@ -227,17 +245,17 @@ The ad-hoc artifacts produced by both subfolders are sensitive:
 `identifier_profile_preservation_results/` are listed in
 [`.gitignore`](.gitignore) to make accidental redistribution harder.
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 Implementation builds on the OpenAI Responses API, the OpenRouter
 inference layer, and the Tavily web-search API for adaptive-attribute
 discovery. 
 
-## Citation
+## 📝 Citation
 
 
 (Replace with the camera-ready BibTeX once the paper is accepted.)
 
-## License
+## 📄 License
 
 This codebase is released under the [MIT License](LICENSE).

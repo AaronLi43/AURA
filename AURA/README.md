@@ -1,7 +1,6 @@
 # CODE
 
-Reference implementation of the **AURA** privacy-rewriting pipeline used in
-our NeurIPS 2026 submission.  Given a JSONL of conversation transcripts,
+Given a JSONL of conversation transcripts,
 AURA produces an anonymized rewrite with controllable privacy scope.
 
 | Entry point | Purpose |
@@ -19,7 +18,7 @@ The four phase modules ([`phase0_init.py`](phase0_init.py),
 [`db.py`](db.py) are imported by the entry points above; they are not
 designed to be invoked directly.
 
-## Setup
+## ⚙️ Setup
 
 Run these from the repo root (the folder that contains both `AURA/` and
 `EVAL/`):
@@ -36,7 +35,7 @@ nano AURA/.env   # add OPENAI_API_KEY (and OPENROUTER_API_KEY if you'll use Qwen
 Then `cd AURA` before running any of the commands below.  On macOS, use
 `python3` if `python` is not installed.
 
-## Quick start
+## 🚀 Quick start
 
 The repo ships a tiny synthetic input
 ([`input/example_transcripts.jsonl`](input/example_transcripts.jsonl)) so
@@ -124,7 +123,7 @@ output/
     └── expanded_privacy_attributes.json      # discovered per-transcript scopes
 ```
 
-## Running on your own data
+## 📄 Running on your own data
 
 The adaptive wrappers and `phase0_init.py` read JSONL with this schema:
 
@@ -167,7 +166,7 @@ NB_DISABLE_REASONING=1
 python run_expanded_privacy.py --reset-db --only-base-attri
 ```
 
-## Outputs
+## 📤 Outputs
 
 Each transcript ends up with a `<conversation_id>.db` SQLite scratch file
 plus a row in the consolidated `<name-prefix>_rewritten.csv`.  The DB
@@ -175,7 +174,7 @@ captures every prompt/response in every phase and is useful for debugging.
 Both files are listed in [`../.gitignore`](../.gitignore) so they are not
 accidentally committed.
 
-## Privacy
+## 🔒 Privacy
 
 This release deliberately omits:
 

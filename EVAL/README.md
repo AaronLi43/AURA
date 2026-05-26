@@ -12,7 +12,7 @@ transcripts.
 | [`evaluate_code_fact_recoverability.py`](evaluate_code_fact_recoverability.py) | LLM-judged recoverability of pre-built deterministic code facts under each rewriting config. |
 | [`_compat.py`](_compat.py) | Vendored constants (`ATTRIBUTE_SPECS`, `CFG_ORDER`, `CFG_DISPLAY`) and CSV helpers used by the two `*.py` evaluators above. |
 
-## Folder layout
+## 📁 Folder layout
 
 ```
 EVAL/
@@ -31,7 +31,7 @@ The scripts emit results next to themselves under
 `identifier_profile_preservation_results/` and `code_fact/`.  Both directories
 are listed in [`../.gitignore`](../.gitignore).
 
-## Privacy: data we do not ship
+## 🔒 Privacy: data we do not ship
 
 The full evaluation harness ordinarily produces four families of artifacts
 that we cannot redistribute:
@@ -49,7 +49,7 @@ The shipped `input/adaptive_attri/example_rewritten.csv` contains two
 fully synthetic transcripts to make `direct_intent.py` immediately runnable
 without supplying any private data.
 
-## Setup
+## ⚙️ Setup
 
 ```bash
 cd EVAL
@@ -63,7 +63,7 @@ cp ../AURA/.env.example ../AURA/.env
 nano ../AURA/.env
 ```
 
-## Usage
+## 📖 Usage
 
 ### 1. Web-search re-identification (`direct_intent.py`)
 
@@ -144,7 +144,7 @@ Per-sample outputs land at `<output-root>/<config>/<sample>.json`; an
 aggregate `<output-root>/summary.json` is written and then merged on
 subsequent runs (so adding new configs does not overwrite existing ones).
 
-## Notes
+## 💡 Notes
 
 * `--model` defaults to `gpt-4.1` for the two main evaluators and
   `gpt-5.4-mini` for `direct_intent.py`.  For Gemini judges, install
