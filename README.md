@@ -23,27 +23,27 @@ The design and empirical results are described in our NeurIPS 2026 paper.
 ## Repository layout 
 
 ```
-NIPS_CODE/
+aura/                             # repo root (name from `git clone`)
 ├── README.md                     # this file
 ├── LICENSE                       # MIT
 ├── .gitignore
 ├── requirements.txt              # combined deps for both subfolders
 │
-├── AURA/         # the AURA pipeline itself
+├── AURA/                         # the AURA pipeline itself
 │   ├── README.md
 │   ├── requirements.txt
 │   ├── .env.example
-│   ├── pipeline.py               # 4-phase rewrite over a single transcript
-│   ├── run_expanded_privacy.py   # adaptive-privacy wrapper
+│   ├── pipeline.py               # 4-phase rewrite (run-one / run-all)
+│   ├── phase0_init.py            # load JSONL into the SQLite scratch DB
+│   ├── run_expanded_privacy.py   # adaptive-privacy wrapper (recommended entry point)
 │   ├── run_pure_adaptive_attri.py
-│   ├── run_qwen_expanded_batch.py
 │   ├── run_openrouter_sample.py
 │   ├── phase{0,1,2}*.py          # phase implementations
 │   ├── pipeline_config.py
 │   ├── db.py
 │   └── input/example_transcripts.jsonl   # synthetic example
 │
-└── EVAL/         # re-identification & utility evaluation
+└── EVAL/                         # re-identification & utility evaluation
     ├── README.md
     ├── requirements.txt
     ├── _compat.py                # vendored constants and CSV helpers
@@ -58,28 +58,120 @@ CSVs and JSONs and never imports from `AURA/`.
 
 ## Quick start
 
-```bash
-git clone <this-repo> aura && cd AURA/AURA
+All commands below assume you cloned into a folder named `aura` and are
+using **Python 3.10+**.  On macOS, use `python3` / `pip3` if `python` /
+`pip` are not on your PATH.
 
-# 1. Install dependencies (Python 3.10+).
-python -m venv .venv && source .venv/bin/activate
+```bash
+git clone <this-repo> aura && cd aura
+
+# 1. Install dependencies.
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2. Configure API keys.  The pipeline needs OPENAI_API_KEY at minimum;
-#    OpenRouter / Gemini are only needed if you exercise those code paths.
+# 2. Configure API keys in AURA/.env
 cp AURA/.env.example AURA/.env
-$EDITOR AURA/.env
+nano AURA/.env   # or: cursor AURA/.env
+#   OPENAI_API_KEY=...        required for GPT runs and web-search re-id
+#   OPENROUTER_API_KEY=...    required for OpenRouter / Qwen rewrite runs
 
-# 3. Run the AURA pipeline on the shipped synthetic transcripts.
 cd AURA
-python pipeline.py --reset-db
-# → output/<name-prefix>_rewritten.csv
-
-# 4. Probe the rewrite with web-search re-id.
-cd ../EVAL
-python direct_intent.py ../AURA/output/<name-prefix>_rewritten.csv
-# → web_search_<name-prefix>_rewritten.csv.json
 ```
+
+### Privacy scope × provider
+
+Three privacy scopes are supported.  Run these from the `AURA/` folder
+(the inner pipeline directory).
+
+| Scope | What is protected | GPT (OpenAI) | OpenRouter (Qwen) |
+|---|---|---|---|
+| **Base only** | 8 predefined attributes only | `python run_expanded_privacy.py --reset-db --only-base-attri` | Set OpenRouter vars in `.env` (below), then `python run_expanded_privacy.py --reset-db --only-base-attri` |
+| **Adaptive** | Base 8 + dynamically discovered attributes | `python run_expanded_privacy.py --reset-db` | Set OpenRouter vars in `.env`, then the same command |
+| **Pure adaptive** | Dynamically discovered attributes only (no base 8) | `python run_pure_adaptive_attri.py --reset-db` | Set OpenRouter vars in `.env`, then the same command |
+
+Default CSV outputs:
+
+| Scope | Output CSV |
+|---|---|
+| Base only | `output/adaptive_attri/nobranch_rewritten.csv` |
+| Adaptive | `output/adaptive_attri/nobranch_rewritten.csv` |
+| Pure adaptive | `output/pure_adaptive_attri/pure_adaptive_attri_rewritten.csv` |
+
+**Recommended first run** (adaptive scope, GPT):
+
+```bash
+python run_expanded_privacy.py --reset-db
+# → output/adaptive_attri/nobranch_rewritten.csv
+```
+
+#### OpenRouter setup
+
+Set these in `AURA/.env` (or `export` them in your shell).  Web-search re-id
+(steps 1 and 4) still uses OpenAI, so keep both keys configured.
+`NB_DISABLE_REASONING=1` is recommended for Qwen models.
+
+```bash
+NB_LLM_PROVIDER=openrouter
+NB_MASKER_MODEL=qwen/qwen3.5-27b
+NB_REFILLER_MODEL=qwen/qwen3.5-27b
+NB_ATTACKER_MODEL=qwen/qwen3.5-27b
+NB_KEEPER_MODEL=qwen/qwen3.5-27b
+NB_INIT_MODEL=qwen/qwen3.5-27b
+NB_MODULATOR_MODEL=qwen/qwen3.5-27b
+NB_DISABLE_REASONING=1
+
+python run_expanded_privacy.py --reset-db --only-base-attri   # base 8 on Qwen
+# python run_expanded_privacy.py --reset-db                  # adaptive on Qwen
+# python run_pure_adaptive_attri.py --reset-db               # pure adaptive on Qwen
+```
+
+### Evaluate the rewrite
+
+```bash
+cd ../EVAL
+python direct_intent.py ../AURA/output/adaptive_attri/nobranch_rewritten.csv
+# → web_search_nobranch_rewritten.csv.json
+```
+
+### Common CLI flags
+
+Flags below apply to `run_expanded_privacy.py` and
+`run_pure_adaptive_attri.py` unless noted.  Run `--help` on any script for
+the full list.
+
+| Flag | Default | Notes |
+|---|---|---|
+| `--reset-db` | off | Delete the SQLite scratch DB before running. |
+| `--only-base-attri` | off | Skip adaptive attribute discovery; protect only the 8 base attributes. Mutually exclusive with `--no-base-attributes`. |
+| `--no-base-attributes` | off | Pure-adaptive mode: skip the base 8 (forced by `run_pure_adaptive_attri.py`). |
+| `--skip-reid` | off | Run the rewrite pipeline only; skip web-search re-id on rewritten outputs. |
+| `--input` | `input/example_transcripts.jsonl` | Source transcript JSONL (`conversation_id`, `user_message`). |
+| `--export-dir` | scope-specific | Directory for CSV, attribute JSON, and re-id artifacts. |
+| `--name-prefix` | `nobranch` or `pure_adaptive_attri` | Filename prefix for exported artifacts. |
+| `--ids` | all rows | Comma-separated transcript IDs to process. |
+| `--feedback-rounds` | `1` | Re-run pipeline on still-re-identified transcripts (adaptive scope only; skipped with `--only-base-attri`). |
+| `--max-new-attributes` | `12` | Cap on new dynamic attributes per transcript per round. |
+| `--max-total-attributes` | `12` | Cap on total attributes per transcript (base + dynamic). |
+| `--direct-intent-model` | `gpt-5.1` | Model for web-search re-id probes (OpenAI only). |
+| `--attribute-model` | `gpt-4.1` | Model for dynamic attribute generation. |
+
+OpenRouter model selection (set in `AURA/.env`, not CLI flags):
+
+| Variable | Example | Notes |
+|---|---|---|
+| `NB_LLM_PROVIDER` | `openrouter` | Route pipeline LLM calls through OpenRouter. |
+| `NB_MASKER_MODEL` | `qwen/qwen3.5-27b` | Model for all pipeline phases unless overridden per phase. |
+| `NB_DISABLE_REASONING` | `1` | Recommended for Qwen; avoids slow hidden reasoning on OpenRouter. |
+
+API keys by path:
+
+| Path | `OPENAI_API_KEY` | `OPENROUTER_API_KEY` |
+|---|---|---|
+| `run_expanded_privacy.py` / `run_pure_adaptive_attri.py` (default GPT) | pipeline + re-id + attribute gen | — |
+| Same scripts + `NB_LLM_PROVIDER=openrouter` | re-id (always) | pipeline + attribute gen |
+
+For the lower-level two-step flow (`phase0_init.py` → `pipeline.py run-all`,
+SQLite only, no CSV export), see [`AURA/README.md`](AURA/README.md).
 
 For details on every CLI flag, see the per-folder READMEs:
 
@@ -95,9 +187,9 @@ repository:
 
 1. **Adaptive-privacy rewrites** under different LLM backbones
    (`gpt-4.1`, `qwen/qwen3.5-27b`, `qwen/qwen3.5-35b-a3b`).  Use
-   `run_expanded_privacy.py` with `NB_LLM_PROVIDER=openai`, or
-   `run_qwen_expanded_batch.py` with `NB_LLM_PROVIDER=openrouter` and the
-   appropriate Qwen model id.
+   `run_expanded_privacy.py` with the default OpenAI provider, or set
+   `NB_LLM_PROVIDER=openrouter` and the appropriate Qwen model ids in
+   `AURA/.env`.
 2. **Re-identification rates** under three attacker models
    (`gpt-5.1`, `gpt-5.4-mini`, `gemini-3-flash-preview`).  Use
    `direct_intent.py` for the web-search probe and

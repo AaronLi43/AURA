@@ -1035,6 +1035,14 @@ def main() -> int:
         help="Do not use the predefined 8 base attributes; rely only on dynamic ones.",
     )
     parser.add_argument(
+        "--only-base-attri",
+        action="store_true",
+        help=(
+            "Skip adaptive attribute discovery and use only the 8 base attributes "
+            "for the rewrite pipeline."
+        ),
+    )
+    parser.add_argument(
         "--output-csv",
         type=Path,
         default=None,
@@ -1072,6 +1080,8 @@ def main() -> int:
 
     if args.reid_only and args.skip_reid:
         raise RuntimeError("--reid-only and --skip-reid cannot be used together.")
+    if args.only_base_attri and args.no_base_attributes:
+        raise RuntimeError("--only-base-attri and --no-base-attributes cannot be used together.")
 
     (
         original_direct_intent_path,
@@ -1134,49 +1144,77 @@ def main() -> int:
         base_attributes = []
     else:
         base_attributes = list(BASE_PRIVACY_ATTRIBUTES)
-    print(f"[attributes] base_count={len(base_attributes)} no_base={args.no_base_attributes}")
+    print(
+        f"[attributes] base_count={len(base_attributes)} "
+        f"no_base={args.no_base_attributes} "
+        f"only_base={args.only_base_attri}"
+    )
+    if cfg.LLM_PROVIDER == "openrouter":
+        print(
+            f"[provider] openrouter model={cfg.MASKER_MODEL} "
+            f"masker_rounds={cfg.MASKER_CONVERGE_ROUNDS} "
+            f"variations={cfg.VARIATIONS_PER_ROUND}"
+        )
     per_doc_new_attrs: dict[str, list[phase0_init.PrivacyAttribute]] = {
         doc_id: [] for doc_id in ordered_ids
     }
 
-    # 1) direct intent on original transcripts
-    print("\n=== Step 1/4: Direct intent on original transcripts ===")
-    original_identifier_candidates = run_direct_intent_parallel(
-        text_by_id=records,
-        output_path=original_direct_intent_path,
-        max_workers=args.direct_intent_workers,
-        model=args.direct_intent_model,
-    )
+    if args.only_base_attri:
+        print(
+            "\n[only-base-attri] skipping direct-intent on originals and "
+            "dynamic attribute generation"
+        )
+        export_payload = build_attribute_export_payload(base_attributes, per_doc_new_attrs)
+        _write_json(expanded_attributes_path, export_payload)
+        print(
+            "[attribute-gen] saved base-only attributes to "
+            f"{expanded_attributes_path} "
+            f"(union={export_payload['total_count']}, new={export_payload['new_count']})"
+        )
+    else:
+        # 1) direct intent on original transcripts
+        print("\n=== Step 1/4: Direct intent on original transcripts ===")
+        original_identifier_candidates = run_direct_intent_parallel(
+            text_by_id=records,
+            output_path=original_direct_intent_path,
+            max_workers=args.direct_intent_workers,
+            model=args.direct_intent_model,
+        )
 
-    # 2) generate per-transcript dynamic attributes using transcript+evidence
-    print("\n=== Step 2/4: Generate dynamic privacy attributes ===")
-    generated_attrs = generate_dynamic_attributes_per_transcript(
-        records=records,
-        identifier_candidates_by_id=original_identifier_candidates,
-        base_attributes=base_attributes,
-        model=args.attribute_model,
-        max_workers=args.attribute_workers,
-        max_new_attributes_per_doc=max(0, args.max_new_attributes),
-    )
-    for doc_id in ordered_ids:
-        per_doc_new_attrs[doc_id] = generated_attrs.get(doc_id, [])
-    _apply_per_doc_total_cap(
-        base_attributes=base_attributes,
-        per_doc_new_attrs=per_doc_new_attrs,
-        max_total_attributes=args.max_total_attributes,
-        target_ids=ordered_ids,
-    )
+        # 2) generate per-transcript dynamic attributes using transcript+evidence
+        print("\n=== Step 2/4: Generate dynamic privacy attributes ===")
+        generated_attrs = generate_dynamic_attributes_per_transcript(
+            records=records,
+            identifier_candidates_by_id=original_identifier_candidates,
+            base_attributes=base_attributes,
+            model=args.attribute_model,
+            max_workers=args.attribute_workers,
+            max_new_attributes_per_doc=max(0, args.max_new_attributes),
+        )
+        for doc_id in ordered_ids:
+            per_doc_new_attrs[doc_id] = generated_attrs.get(doc_id, [])
+        _apply_per_doc_total_cap(
+            base_attributes=base_attributes,
+            per_doc_new_attrs=per_doc_new_attrs,
+            max_total_attributes=args.max_total_attributes,
+            target_ids=ordered_ids,
+        )
 
-    export_payload = build_attribute_export_payload(base_attributes, per_doc_new_attrs)
-    _write_json(expanded_attributes_path, export_payload)
-    print(
-        "[attribute-gen] saved expanded attributes to "
-        f"{expanded_attributes_path} "
-        f"(union={export_payload['total_count']}, new={export_payload['new_count']})"
-    )
+        export_payload = build_attribute_export_payload(base_attributes, per_doc_new_attrs)
+        _write_json(expanded_attributes_path, export_payload)
+        print(
+            "[attribute-gen] saved expanded attributes to "
+            f"{expanded_attributes_path} "
+            f"(union={export_payload['total_count']}, new={export_payload['new_count']})"
+        )
 
     # 3) run no-branch pipeline with per-document attribute scopes
-    print("\n=== Step 3/4: Run no-branch pipeline with expanded attributes ===")
+    step3_label = (
+        "base attributes only"
+        if args.only_base_attri
+        else "expanded attributes"
+    )
+    print(f"\n=== Step 3/4: Run no-branch pipeline with {step3_label} ===")
     if args.reset_db:
         _reset_db_file()
     db.init_db()
@@ -1206,69 +1244,75 @@ def main() -> int:
         force_ids=set(ordered_ids),
     )
 
-    for round_idx in range(1, max(0, args.feedback_rounds) + 1):
-        flagged = detect_reidentified_docs(
-            reid_results_by_id=rewritten_reid,
-            confidence_threshold=args.reid_threshold,
-        )
-        if not flagged:
-            print(f"[feedback] round={round_idx}: no re-identified transcripts above threshold.")
-            break
-
-        flagged_ids = sorted(flagged.keys())
+    if args.only_base_attri and args.feedback_rounds > 0:
         print(
-            f"[feedback] round={round_idx}: "
-            f"re-identified={len(flagged_ids)} -> {', '.join(flagged_ids)}"
+            "[only-base-attri] feedback rounds skipped "
+            "(no adaptive attribute generation)."
         )
-        added_attrs = generate_feedback_attributes(
-            target_doc_ids=flagged_ids,
-            records=records,
-            rewritten_texts=rewritten_texts,
-            rewritten_reid=rewritten_reid,
-            base_attributes=base_attributes,
-            per_doc_new_attrs=per_doc_new_attrs,
-            model=args.attribute_model,
-            max_workers=args.attribute_workers,
-            max_new_attributes_per_doc=max(0, args.max_new_attributes),
-        )
-        if not added_attrs:
-            print("[feedback] no additional targeted attributes were generated; stopping.")
-            break
+    elif not args.only_base_attri:
+        for round_idx in range(1, max(0, args.feedback_rounds) + 1):
+            flagged = detect_reidentified_docs(
+                reid_results_by_id=rewritten_reid,
+                confidence_threshold=args.reid_threshold,
+            )
+            if not flagged:
+                print(f"[feedback] round={round_idx}: no re-identified transcripts above threshold.")
+                break
 
-        _apply_per_doc_total_cap(
-            base_attributes=base_attributes,
-            per_doc_new_attrs=per_doc_new_attrs,
-            max_total_attributes=args.max_total_attributes,
-            target_ids=flagged_ids,
-        )
-        rerun_ids = sorted(added_attrs.keys())
-        print(f"[feedback] rerunning {len(rerun_ids)} transcript(s): {', '.join(rerun_ids)}")
-        run_pipeline_for_documents(
-            document_ids=rerun_ids,
-            records=records,
-            base_attributes=base_attributes,
-            per_doc_new_attrs=per_doc_new_attrs,
-        )
-        rewritten_texts = collect_rewritten_texts(expected_ids=ordered_ids)
-        _write_rewritten_csv(rewritten_csv_path, ordered_ids, rewritten_texts)
-        print(
-            f"[feedback] round={round_idx}: updated rewritten csv at {rewritten_csv_path}"
-        )
-        rewritten_reid = run_direct_intent_parallel(
-            text_by_id=rewritten_texts,
-            output_path=reid_output_path,
-            max_workers=args.direct_intent_workers,
-            model=args.direct_intent_model,
-            force_ids=set(rerun_ids),
-        )
+            flagged_ids = sorted(flagged.keys())
+            print(
+                f"[feedback] round={round_idx}: "
+                f"re-identified={len(flagged_ids)} -> {', '.join(flagged_ids)}"
+            )
+            added_attrs = generate_feedback_attributes(
+                target_doc_ids=flagged_ids,
+                records=records,
+                rewritten_texts=rewritten_texts,
+                rewritten_reid=rewritten_reid,
+                base_attributes=base_attributes,
+                per_doc_new_attrs=per_doc_new_attrs,
+                model=args.attribute_model,
+                max_workers=args.attribute_workers,
+                max_new_attributes_per_doc=max(0, args.max_new_attributes),
+            )
+            if not added_attrs:
+                print("[feedback] no additional targeted attributes were generated; stopping.")
+                break
 
-        export_payload = build_attribute_export_payload(base_attributes, per_doc_new_attrs)
-        _write_json(expanded_attributes_path, export_payload)
-        print(
-            "[feedback] updated attributes saved to "
-            f"{expanded_attributes_path} "
-            f"(union={export_payload['total_count']}, new={export_payload['new_count']})"
-        )
+            _apply_per_doc_total_cap(
+                base_attributes=base_attributes,
+                per_doc_new_attrs=per_doc_new_attrs,
+                max_total_attributes=args.max_total_attributes,
+                target_ids=flagged_ids,
+            )
+            rerun_ids = sorted(added_attrs.keys())
+            print(f"[feedback] rerunning {len(rerun_ids)} transcript(s): {', '.join(rerun_ids)}")
+            run_pipeline_for_documents(
+                document_ids=rerun_ids,
+                records=records,
+                base_attributes=base_attributes,
+                per_doc_new_attrs=per_doc_new_attrs,
+            )
+            rewritten_texts = collect_rewritten_texts(expected_ids=ordered_ids)
+            _write_rewritten_csv(rewritten_csv_path, ordered_ids, rewritten_texts)
+            print(
+                f"[feedback] round={round_idx}: updated rewritten csv at {rewritten_csv_path}"
+            )
+            rewritten_reid = run_direct_intent_parallel(
+                text_by_id=rewritten_texts,
+                output_path=reid_output_path,
+                max_workers=args.direct_intent_workers,
+                model=args.direct_intent_model,
+                force_ids=set(rerun_ids),
+            )
+
+            export_payload = build_attribute_export_payload(base_attributes, per_doc_new_attrs)
+            _write_json(expanded_attributes_path, export_payload)
+            print(
+                "[feedback] updated attributes saved to "
+                f"{expanded_attributes_path} "
+                f"(union={export_payload['total_count']}, new={export_payload['new_count']})"
+            )
 
     final_flagged = detect_reidentified_docs(
         reid_results_by_id=rewritten_reid,

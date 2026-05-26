@@ -200,6 +200,34 @@ def _wrap_client_with_extra_body(client: OpenAI, extra_body: dict) -> OpenAI:
     return client
 
 
+def _env_flag(name: str, default: str = "0") -> bool:
+    return os.getenv(name, default).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _openrouter_reasoning_extra_body() -> dict:
+    """Build OpenRouter reasoning controls.
+
+    Qwen models on OpenRouter can spend a long time in a hidden reasoning
+    phase unless reasoning is disabled.  ``run_openrouter_sample.py`` sets
+    ``NB_DISABLE_REASONING=1`` explicitly; ``run_expanded_privacy.py`` did
+    not, which made OpenRouter rewrite runs look much slower than GPT runs
+    even when ``--only-base-attri`` skips the adaptive discovery steps.
+    """
+    extra_body: dict = {}
+    if _env_flag("NB_EXCLUDE_REASONING"):
+        extra_body["reasoning"] = {"exclude": True}
+
+    disable_reasoning = _env_flag("NB_DISABLE_REASONING")
+    if os.getenv("NB_DISABLE_REASONING") is None:
+        model_name = os.getenv("NB_MASKER_MODEL", OPENAI_MODEL).lower()
+        if "qwen" in model_name:
+            disable_reasoning = True
+
+    if disable_reasoning:
+        extra_body.setdefault("reasoning", {})["enabled"] = False
+    return extra_body
+
+
 def get_openai_client() -> OpenAI:
     return OpenAI(api_key=OPENAI_API_KEY)
 
@@ -211,11 +239,7 @@ def get_pipeline_client() -> OpenAI:
         if not OPENROUTER_API_KEY:
             raise RuntimeError("OPENROUTER_API_KEY is not set in environment/.env")
         client = OpenAI(api_key=OPENROUTER_API_KEY, base_url=OPENROUTER_BASE_URL)
-        extra_body = {}
-        if EXCLUDE_REASONING:
-            extra_body["reasoning"] = {"exclude": True}
-        if DISABLE_REASONING:
-            extra_body.setdefault("reasoning", {})["enabled"] = False
+        extra_body = _openrouter_reasoning_extra_body()
         client = _wrap_client_with_extra_body(client, extra_body)
         return client
     raise RuntimeError(f"Unsupported NB_LLM_PROVIDER: {LLM_PROVIDER}")

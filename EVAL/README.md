@@ -53,14 +53,14 @@ without supplying any private data.
 
 ```bash
 cd EVAL
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 # Add OPENAI_API_KEY (and optionally GEMINI_API_KEY) to:
 #   ../AURA/.env   (loaded automatically), OR
 #   ./.env                         (also auto-discovered)
 cp ../AURA/.env.example ../AURA/.env
-$EDITOR ../AURA/.env
+nano ../AURA/.env
 ```
 
 ## Usage
