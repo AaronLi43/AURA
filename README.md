@@ -252,7 +252,18 @@ discovery.
 ## 📝 Citation
 
 
-(Replace with the camera-ready BibTeX once the paper is accepted.)
+
+```bibtex
+@misc{li2026llmanonymizationagenticreidentification,
+  title         = {LLM Anonymization Against Agentic Re-Identification},
+  author        = {Ziwen Li and Jianing Wen and Tianshi Li},
+  year          = {2026},
+  eprint        = {2605.30848},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CR},
+  url           = {https://arxiv.org/abs/2605.30848},
+}
+```
 
 ## 📄 License
 
