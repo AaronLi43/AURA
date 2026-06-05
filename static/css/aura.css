@@ -1,5 +1,39 @@
 /* AURA project page custom styles */
 
+/* ---------- Global typography & layout ---------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  font-size: 18px;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #1f2937;
+}
+
+/* Widen Bulma's max-desktop container so we waste less side space */
+.container.is-max-desktop {
+  max-width: 1280px !important;
+  width: 100%;
+}
+
+@media (min-width: 1408px) {
+  .container.is-max-desktop {
+    max-width: 1360px !important;
+  }
+}
+
+/* Slightly wider section padding so cards breathe */
+.section { padding: 3rem 2rem; }
+
+/* Make Bulma's content text bigger */
+.content { font-size: 1.05rem; line-height: 1.7; }
+.content p { font-size: 1.05rem; }
+.content li { font-size: 1.02rem; }
+
+/* ---------- Branding ---------- */
 .aura-title {
   font-family: 'Google Sans', sans-serif;
   font-weight: 700;
@@ -15,12 +49,66 @@
   margin: 4px 4px;
 }
 
+/* HuggingFace logo button icon */
+.hf-icon { width: 1.2em; height: 1.2em; }
+.hf-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+/* ---------- Navbar (larger font + animated underline + smooth target) ---------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(8px);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.25s ease, background 0.25s ease;
+}
+.navbar:hover { box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06); }
+
 .navbar .navbar-item {
   font-family: 'Google Sans', sans-serif;
   font-weight: 500;
-  color: #444;
+  color: #374151;
+  font-size: 1.08rem;
+  padding: 0.85rem 1.25rem;
+  position: relative;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
-.navbar .navbar-item:hover { color: #2563eb; }
+.navbar .navbar-item::after {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  bottom: 0.5rem;
+  height: 2px;
+  background: #2563eb;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+.navbar .navbar-item:hover {
+  color: #2563eb;
+  background: transparent;
+  transform: translateY(-1px);
+}
+.navbar .navbar-item:hover::after { transform: scaleX(1); }
+
+/* Highlight a section briefly when navigated to via hash */
+section:target {
+  animation: section-flash 1.6s ease-out;
+}
+@keyframes section-flash {
+  0%   { box-shadow: inset 0 0 0 0 rgba(37, 99, 235, 0.22); }
+  20%  { box-shadow: inset 0 0 0 9999px rgba(37, 99, 235, 0.08); }
+  100% { box-shadow: inset 0 0 0 9999px rgba(37, 99, 235, 0); }
+}
 
 .teaser .hero-body { padding-top: 1rem; padding-bottom: 2.5rem; }
 
@@ -60,9 +148,9 @@
   font-family: 'Google Sans', sans-serif;
   font-weight: 400;
   color: #444;
-  font-size: 1.05rem;
-  margin-top: 1.2rem;
-  line-height: 1.55;
+  font-size: 1.1rem;
+  margin-top: 1.4rem;
+  line-height: 1.6;
 }
 
 /* Section spacing */
@@ -72,17 +160,17 @@
 /* News */
 .news-list { list-style: none; margin-left: 0; padding-left: 0; }
 .news-list li {
-  padding: 8px 0;
+  padding: 10px 0;
   border-bottom: 1px dashed #e5e7eb;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 .news-date {
   display: inline-block;
   font-family: 'Google Sans', sans-serif;
   font-weight: 600;
   color: #2563eb;
-  margin-right: 14px;
-  min-width: 100px;
+  margin-right: 16px;
+  min-width: 110px;
 }
 
 /* Phase cards */
@@ -107,7 +195,7 @@
 .phase-card-ph1 .title { color: #bf360c; }
 .phase-card-ph2 { border-top: 4px solid #2e7d32; }
 .phase-card-ph2 .title { color: #1b5e20; }
-.phase-card p { font-size: 0.95rem; line-height: 1.55; color: #333; }
+.phase-card p { font-size: 1rem; line-height: 1.6; color: #333; }
 
 /* Benchmark cards */
 .benchmark-card {
@@ -120,7 +208,7 @@
 }
 .benchmark-card h4 { font-family: 'Google Sans', sans-serif; color: #222; margin-bottom: 0.5rem; }
 .benchmark-card ul { margin-left: 1.25rem; }
-.benchmark-card li { padding: 3px 0; font-size: 0.95rem; }
+.benchmark-card li { padding: 4px 0; font-size: 1rem; }
 
 /* Baseline tags */
 .tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 0.5rem; }
@@ -129,13 +217,13 @@
   color: #3730a3;
   border: 1px solid #c7d2fe;
   border-radius: 999px;
-  padding: 4px 12px;
-  font-size: 0.85rem;
+  padding: 5px 14px;
+  font-size: 0.95rem;
   font-family: 'Google Sans', sans-serif;
 }
 
 /* Results table */
-.results-table { font-size: 0.92rem; background: #fff; border-radius: 8px; overflow: hidden; }
+.results-table { font-size: 1rem; background: #fff; border-radius: 8px; overflow: hidden; }
 .results-table thead th {
   background: #1f2937;
   color: #fff !important;
@@ -147,20 +235,21 @@
   background: #f3f4f6;
   color: #555;
   font-family: 'Google Sans', sans-serif;
-  font-size: 0.86rem;
-  letter-spacing: 0.05em;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 8px 10px;
+  padding: 10px 12px;
 }
 .results-table .row-best td { background: #ecfdf5 !important; }
 .results-table .row-best strong { color: #047857; }
 .results-table .row-bad td { background: #fef2f2 !important; }
 
 .caption {
-  font-size: 0.92rem;
+  font-size: 1rem;
   color: #555;
   margin-bottom: 1rem;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
+  line-height: 1.55;
 }
 
 /* Pareto chart */
@@ -186,9 +275,9 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
-  padding: 16px 18px;
-  font-size: 0.95rem;
-  line-height: 1.55;
+  padding: 18px 20px;
+  font-size: 1rem;
+  line-height: 1.6;
   box-shadow: 0 3px 10px rgba(0,0,0,0.04);
 }
 .diff-head {
@@ -210,8 +299,9 @@
   background: #1f2937;
   color: #f9fafb;
   border-radius: 8px;
-  padding: 18px;
-  font-size: 0.92rem;
+  padding: 20px 22px;
+  font-size: 0.98rem;
+  line-height: 1.55;
   overflow-x: auto;
 }
 #bibtex code { color: inherit; background: transparent; }

@@ -104,8 +104,8 @@
               <span class="link-block">
                 <a href="https://huggingface.co/papers/2605.30848"
                    class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-robot"></i>
+                  <span class="icon hf-icon">
+                      <img src="./static/images/hf-logo-monochrome.png" alt="HuggingFace" />
                   </span>
                   <span>HuggingFace</span>
                 </a>
@@ -414,8 +414,8 @@
     </div>
 
     <p class="caption has-text-centered" style="margin-top:1.5rem;">
-      Recovery (%) of <em>profile facts</em>, <em>codebook facts</em>, and <em>utility-grid units</em>
-      across 27 transcripts. Higher is better.
+      <strong>Utility-grid unit recovery (%)</strong> across 27 transcripts — the joint metric
+      over all 2,349 validated profile-code units. Higher is better.
     </p>
 
     <div class="table-container">
@@ -423,28 +423,26 @@
         <thead>
           <tr>
             <th>Method</th>
-            <th class="has-text-centered">Profile</th>
-            <th class="has-text-centered">Codebook</th>
             <th class="has-text-centered">Utility grid (unit)</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="row-group"><td colspan="4"><em>AURA variants</em></td></tr>
-          <tr class="row-best"><td><strong>AURA (adapt. privacy, Qwen3.5-27B)</strong></td><td class="has-text-centered">—</td><td class="has-text-centered">96.8</td><td class="has-text-centered"><strong>80.3</strong></td></tr>
-          <tr><td>AURA (adapt. privacy, Qwen3.5-35B-A3B)</td><td class="has-text-centered">—</td><td class="has-text-centered">96.5</td><td class="has-text-centered">76.7</td></tr>
-          <tr><td>AURA (adapt. privacy, GPT-4.1)</td><td class="has-text-centered">—</td><td class="has-text-centered">95.1</td><td class="has-text-centered">74.9</td></tr>
-          <tr><td>AURA (pure adaptive, GPT-4.1)</td><td class="has-text-centered">—</td><td class="has-text-centered">94.3</td><td class="has-text-centered">71.9</td></tr>
-          <tr><td>AURA (8-attribute, GPT-4.1)</td><td class="has-text-centered">80.6</td><td class="has-text-centered">93.3</td><td class="has-text-centered">77.1</td></tr>
-          <tr><td>AURA (8-attribute, Qwen3.5-27B)</td><td class="has-text-centered">78.8</td><td class="has-text-centered">96.0</td><td class="has-text-centered">78.7</td></tr>
-          <tr><td>AURA (8-attribute, Qwen3.5-35B-A3B)</td><td class="has-text-centered">79.4</td><td class="has-text-centered">96.2</td><td class="has-text-centered">80.2</td></tr>
-          <tr class="row-group"><td colspan="4"><em>Non-DP baselines</em></td></tr>
-          <tr><td>Anonymizer [Staab+ 2025]</td><td class="has-text-centered">—</td><td class="has-text-centered">—</td><td class="has-text-centered">72.1</td></tr>
-          <tr><td>Presidio</td><td class="has-text-centered">—</td><td class="has-text-centered">—</td><td class="has-text-centered">96.7</td></tr>
-          <tr><td>One-shot rewrite (minimal)</td><td class="has-text-centered">—</td><td class="has-text-centered">—</td><td class="has-text-centered">92.8</td></tr>
-          <tr><td>One-shot rewrite (detailed)</td><td class="has-text-centered">—</td><td class="has-text-centered">—</td><td class="has-text-centered">98.2</td></tr>
-          <tr class="row-group"><td colspan="4"><em>DP-MLM baselines</em></td></tr>
-          <tr class="row-bad"><td>DP-MLM (ε = 10)</td><td class="has-text-centered">—</td><td class="has-text-centered">—</td><td class="has-text-centered">0.0</td></tr>
-          <tr><td>DP-MLM (ε = 140)</td><td class="has-text-centered">—</td><td class="has-text-centered">—</td><td class="has-text-centered">60.1</td></tr>
+          <tr class="row-group"><td colspan="2"><em>AURA variants</em></td></tr>
+          <tr class="row-best"><td><strong>AURA (adapt. privacy, Qwen3.5-27B)</strong></td><td class="has-text-centered"><strong>80.3</strong></td></tr>
+          <tr><td>AURA (adapt. privacy, Qwen3.5-35B-A3B)</td><td class="has-text-centered">76.7</td></tr>
+          <tr><td>AURA (adapt. privacy, GPT-4.1)</td><td class="has-text-centered">74.9</td></tr>
+          <tr><td>AURA (pure adaptive, GPT-4.1)</td><td class="has-text-centered">71.9</td></tr>
+          <tr><td>AURA (8-attribute, GPT-4.1)</td><td class="has-text-centered">77.1</td></tr>
+          <tr><td>AURA (8-attribute, Qwen3.5-27B)</td><td class="has-text-centered">78.7</td></tr>
+          <tr><td>AURA (8-attribute, Qwen3.5-35B-A3B)</td><td class="has-text-centered">80.2</td></tr>
+          <tr class="row-group"><td colspan="2"><em>Non-DP baselines</em></td></tr>
+          <tr><td>Anonymizer [Staab+ 2025]</td><td class="has-text-centered">72.1</td></tr>
+          <tr><td>Presidio</td><td class="has-text-centered">96.7</td></tr>
+          <tr><td>One-shot rewrite (minimal)</td><td class="has-text-centered">92.8</td></tr>
+          <tr><td>One-shot rewrite (detailed)</td><td class="has-text-centered">98.2</td></tr>
+          <tr class="row-group"><td colspan="2"><em>DP-MLM baselines</em></td></tr>
+          <tr class="row-bad"><td>DP-MLM (ε = 10)</td><td class="has-text-centered">0.0</td></tr>
+          <tr><td>DP-MLM (ε = 140)</td><td class="has-text-centered">60.1</td></tr>
         </tbody>
       </table>
     </div>
