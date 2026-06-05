@@ -28,11 +28,33 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
-  padding: 16px 12px 8px 12px;
+  padding: 16px 16px 12px 16px;
   box-shadow: 0 6px 22px rgba(0,0,0,0.06);
-  overflow-x: auto;
 }
-.teaser-figure svg { display: block; width: 100%; height: auto; min-width: 720px; }
+.teaser-figure svg { display: block; width: 100%; height: auto; }
+.teaser-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.figure-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 18px 10px 18px;
+  margin-top: 1rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+.figure-img {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  height: auto;
+  border-radius: 6px;
+}
 
 .teaser .subtitle {
   font-family: 'Google Sans', sans-serif;
@@ -149,9 +171,9 @@
   padding: 16px 16px 8px 16px;
   margin-top: 1rem;
   box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-  overflow-x: auto;
 }
 .pareto-chart svg { display: block; width: 100%; height: auto; min-width: 640px; }
+.pareto-chart .figure-img { max-width: 900px; }
 
 /* Diff grid */
 .diff-grid {

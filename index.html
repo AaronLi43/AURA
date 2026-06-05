@@ -102,12 +102,12 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://anthropic.com/research/anthropic-interviewer"
+                <a href="https://huggingface.co/papers/2605.30848"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
-                      <i class="fas fa-database"></i>
+                      <i class="fas fa-robot"></i>
                   </span>
-                  <span>Dataset</span>
+                  <span>HuggingFace</span>
                 </a>
               </span>
             </div>
@@ -123,108 +123,17 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <div class="teaser-figure">
-        <svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AURA pipeline overview">
-          <defs>
-            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
-            </marker>
-            <linearGradient id="ph0" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#e3f2fd"/>
-              <stop offset="100%" stop-color="#bbdefb"/>
-            </linearGradient>
-            <linearGradient id="ph1" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#fff3e0"/>
-              <stop offset="100%" stop-color="#ffe0b2"/>
-            </linearGradient>
-            <linearGradient id="ph2" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#e8f5e9"/>
-              <stop offset="100%" stop-color="#c8e6c9"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Original transcript -->
-          <g>
-            <rect x="20" y="140" width="140" height="100" rx="10" ry="10" fill="#f5f5f5" stroke="#666" stroke-width="1.5"/>
-            <text x="90" y="170" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#222">Original</text>
-            <text x="90" y="188" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#222">Transcript T</text>
-            <text x="90" y="212" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#444">interviewee’s</text>
-            <text x="90" y="226" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#444">free-form text</text>
-          </g>
-
-          <!-- Phase 0 -->
-          <g>
-            <rect x="190" y="80" width="200" height="220" rx="12" ry="12" fill="url(#ph0)" stroke="#1976d2" stroke-width="1.5"/>
-            <text x="290" y="105" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#0d47a1">Phase 0 · Initialization</text>
-            <text x="290" y="135" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Web-search agent</text>
-            <text x="290" y="151" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">re-identification probe</text>
-            <line x1="220" y1="165" x2="360" y2="165" stroke="#1976d2" stroke-dasharray="3 3"/>
-            <text x="290" y="183" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Adaptive privacy</text>
-            <text x="290" y="199" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">scope A</text>
-            <text x="290" y="219" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Insight profile P</text>
-            <text x="290" y="239" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">(8 utility dims)</text>
-            <text x="290" y="263" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-style="italic" fill="#0d47a1">Blacklist B of</text>
-            <text x="290" y="277" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-style="italic" fill="#0d47a1">evidence spans</text>
-          </g>
-
-          <!-- Phase 1 -->
-          <g>
-            <rect x="420" y="80" width="200" height="220" rx="12" ry="12" fill="url(#ph1)" stroke="#f57c00" stroke-width="1.5"/>
-            <text x="520" y="105" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#bf360c">Phase 1 · Masking</text>
-            <text x="520" y="135" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Iterative privacy-feedback</text>
-            <text x="520" y="151" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">rewrites · R rounds</text>
-            <line x1="450" y1="165" x2="590" y2="165" stroke="#f57c00" stroke-dasharray="3 3"/>
-            <text x="520" y="183" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Diff original vs.</text>
-            <text x="520" y="199" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">converged rewrite</text>
-            <text x="520" y="223" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-weight="bold" fill="#bf360c">Mask template T̂</text>
-            <text x="520" y="239" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">[MASK_i] placeholders</text>
-            <text x="520" y="263" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-style="italic" fill="#bf360c">+ mask map M and</text>
-            <text x="520" y="277" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-style="italic" fill="#bf360c">seed replacements</text>
-          </g>
-
-          <!-- Phase 2 -->
-          <g>
-            <rect x="650" y="80" width="200" height="220" rx="12" ry="12" fill="url(#ph2)" stroke="#2e7d32" stroke-width="1.5"/>
-            <text x="750" y="105" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#1b5e20">Phase 2 · Reconstruct</text>
-            <text x="750" y="135" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">N candidate rewrites</text>
-            <text x="750" y="151" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">for masked spans</text>
-            <line x1="680" y1="165" x2="820" y2="165" stroke="#2e7d32" stroke-dasharray="3 3"/>
-            <text x="750" y="183" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Attacker: severity S,</text>
-            <text x="750" y="199" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">specificity count C</text>
-            <text x="750" y="219" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" fill="#222">Keeper: utility loss L</text>
-            <text x="750" y="245" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-style="italic" fill="#1b5e20">Select satisfying C ≤ Cmax,</text>
-            <text x="750" y="259" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="11" font-style="italic" fill="#1b5e20">minimize (S, L)</text>
-          </g>
-
-          <!-- Sanitized output -->
-          <g>
-            <rect x="880" y="140" width="100" height="100" rx="10" ry="10" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
-            <text x="930" y="180" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#5d4037">Sanitized</text>
-            <text x="930" y="200" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" font-weight="bold" fill="#5d4037">T*</text>
-          </g>
-
-          <!-- Arrows -->
-          <line x1="160" y1="190" x2="188" y2="190" stroke="#444" stroke-width="1.8" marker-end="url(#arrow)"/>
-          <line x1="390" y1="190" x2="418" y2="190" stroke="#444" stroke-width="1.8" marker-end="url(#arrow)"/>
-          <line x1="620" y1="190" x2="648" y2="190" stroke="#444" stroke-width="1.8" marker-end="url(#arrow)"/>
-          <line x1="850" y1="190" x2="878" y2="190" stroke="#444" stroke-width="1.8" marker-end="url(#arrow)"/>
-
-          <!-- Title -->
-          <text x="500" y="35" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="18" font-weight="bold" fill="#222">AURA: Mask–Reconstruct Pipeline</text>
-          <text x="500" y="55" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="12" fill="#555">Decoupling privacy localization from utility-preserving reconstruction</text>
-
-          <!-- Bottom row: privacy vs utility -->
-          <g>
-            <rect x="190" y="320" width="430" height="40" rx="8" ry="8" fill="#fce4ec" stroke="#c2185b" stroke-width="1"/>
-            <text x="405" y="345" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="12" fill="#880e4f">Adversarial check against web-search agentic re-identification</text>
-            <rect x="650" y="320" width="200" height="40" rx="8" ry="8" fill="#ede7f6" stroke="#5e35b1" stroke-width="1"/>
-            <text x="750" y="345" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="12" fill="#311b92">Utility-retention check</text>
-          </g>
-        </svg>
+        <img src="./static/images/teaser.png"
+             alt="AURA overview: adaptive privacy scope expansion, masking convergence, and reconstruct-evaluate-select stages."
+             class="teaser-img"/>
       </div>
       <h2 class="subtitle has-text-centered">
-        <span class="aura-title">AURA</span> first localizes contextual privacy-bearing spans through an
-        adaptive web-search probe, then reconstructs only those spans under joint privacy &amp; utility checks
-        — pushing the Pareto frontier for LLM-era text release.
+        <strong>Figure 1.</strong> <span class="aura-title">AURA</span> overview. Adaptive privacy
+        scope expansion augments a base re-identification profile with transcript-specific
+        quasi-identifiers; <span class="aura-title">AURA</span> then initializes privacy and utility
+        profiles, converges on a mask template for sensitive spans, and reconstructs only those
+        spans. Candidate rewrites are scored by an attribute-inference attacker and a keeper before
+        the final sanitized transcript <em>T*</em> is selected.
       </h2>
     </div>
   </div>
@@ -490,7 +399,21 @@
     </div>
 
     <h3 class="title is-4 has-text-centered" style="margin-top:3rem;">Utility Preservation</h3>
-    <p class="caption has-text-centered">
+
+    <div class="figure-card">
+      <img src="./static/images/utility_barplot.png"
+           alt="Utility accuracy across profile, code, and validated grid units for AURA, non-DP baselines, and DP-MLM."
+           class="figure-img"/>
+      <p class="caption has-text-centered">
+        <strong>Figure 2.</strong> Utility preservation across 27 transcripts. Profile and
+        codebook values are fact-level recoverability; Grid (unit) is the weighted recovery rate
+        over all 2,349 validated profile-code units. Dashed horizontal lines mark the adaptive
+        privacy <span class="aura-title">AURA</span> (Qwen3.5-27B) accuracy — the highest
+        contextual utility-grid accuracy — for the corresponding metric.
+      </p>
+    </div>
+
+    <p class="caption has-text-centered" style="margin-top:1.5rem;">
       Recovery (%) of <em>profile facts</em>, <em>codebook facts</em>, and <em>utility-grid units</em>
       across 27 transcripts. Higher is better.
     </p>
@@ -544,116 +467,16 @@
     </div>
 
     <div class="pareto-chart">
-      <svg viewBox="0 0 780 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pareto frontier of privacy vs. utility">
-        <!-- Axes -->
-        <line x1="80" y1="400" x2="740" y2="400" stroke="#333" stroke-width="1.5"/>
-        <line x1="80" y1="40" x2="80" y2="400" stroke="#333" stroke-width="1.5"/>
-        <text x="410" y="440" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" fill="#222">Privacy success (100 − re-identification rate, %) — GPT-5.4-mini</text>
-        <g transform="translate(30,220) rotate(-90)">
-          <text text-anchor="middle" font-family="Google Sans, sans-serif" font-size="13" fill="#222">Utility-grid unit recovery (%)</text>
-        </g>
-        <!-- Ticks X -->
-        <g font-family="Noto Sans, sans-serif" font-size="11" fill="#444">
-          <text x="80" y="418" text-anchor="middle">20</text>
-          <text x="245" y="418" text-anchor="middle">40</text>
-          <text x="410" y="418" text-anchor="middle">60</text>
-          <text x="575" y="418" text-anchor="middle">80</text>
-          <text x="740" y="418" text-anchor="middle">100</text>
-        </g>
-        <g stroke="#e0e0e0" stroke-dasharray="3 3">
-          <line x1="245" y1="40" x2="245" y2="400"/>
-          <line x1="410" y1="40" x2="410" y2="400"/>
-          <line x1="575" y1="40" x2="575" y2="400"/>
-          <line x1="740" y1="40" x2="740" y2="400"/>
-        </g>
-        <!-- Ticks Y -->
-        <g font-family="Noto Sans, sans-serif" font-size="11" fill="#444">
-          <text x="70" y="404" text-anchor="end">0</text>
-          <text x="70" y="332" text-anchor="end">20</text>
-          <text x="70" y="260" text-anchor="end">40</text>
-          <text x="70" y="188" text-anchor="end">60</text>
-          <text x="70" y="116" text-anchor="end">80</text>
-          <text x="70" y="44" text-anchor="end">100</text>
-        </g>
-        <g stroke="#e0e0e0" stroke-dasharray="3 3">
-          <line x1="80" y1="332" x2="740" y2="332"/>
-          <line x1="80" y1="260" x2="740" y2="260"/>
-          <line x1="80" y1="188" x2="740" y2="188"/>
-          <line x1="80" y1="116" x2="740" y2="116"/>
-          <line x1="80" y1="44" x2="740" y2="44"/>
-        </g>
-
-        <!-- Pareto polyline through approximate frontier points -->
-        <polyline points="80,44 245,86 410,115 575,168 660,116" fill="none" stroke="#9e9e9e" stroke-width="2" stroke-dasharray="6 4"/>
-
-        <!-- Data points -->
-        <!-- AURA adaptive (best): privacy ~85, utility ~80 -->
-        <g>
-          <circle cx="617" cy="116" r="7" fill="#1976d2" stroke="#fff" stroke-width="1.2"/>
-          <text x="617" y="104" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="10" fill="#0d47a1">AURA (adapt., Qwen3.5-27B)</text>
-        </g>
-        <g>
-          <circle cx="608" cy="120" r="6" fill="#1976d2" stroke="#fff" stroke-width="1.2"/>
-        </g>
-        <g>
-          <circle cx="640" cy="124" r="6" fill="#1976d2" stroke="#fff" stroke-width="1.2"/>
-        </g>
-        <g>
-          <circle cx="565" cy="118" r="6" fill="#1976d2" stroke="#fff" stroke-width="1.2"/>
-          <text x="525" y="108" text-anchor="end" font-family="Google Sans, sans-serif" font-size="10" fill="#0d47a1">AURA (8-attr.)</text>
-        </g>
-
-        <!-- Anonymizer baseline -->
-        <g>
-          <circle cx="495" cy="155" r="6" fill="#ef6c00" stroke="#fff" stroke-width="1.2"/>
-          <text x="495" y="143" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="10" fill="#bf360c">Anonymizer</text>
-        </g>
-
-        <!-- Presidio -->
-        <g>
-          <circle cx="225" cy="92" r="6" fill="#c62828" stroke="#fff" stroke-width="1.2"/>
-          <text x="225" y="80" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="10" fill="#b71c1c">Presidio</text>
-        </g>
-
-        <!-- One-shot detailed -->
-        <g>
-          <circle cx="345" cy="76" r="6" fill="#c62828" stroke="#fff" stroke-width="1.2"/>
-          <text x="345" y="64" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="10" fill="#b71c1c">One-shot (detailed)</text>
-        </g>
-        <g>
-          <circle cx="385" cy="105" r="6" fill="#c62828" stroke="#fff" stroke-width="1.2"/>
-          <text x="385" y="120" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="10" fill="#b71c1c">One-shot (minimal)</text>
-        </g>
-
-        <!-- DP-MLM points -->
-        <g fill="#6a1b9a">
-          <circle cx="740" cy="404" r="6" stroke="#fff" stroke-width="1.2"/>
-          <circle cx="740" cy="404" r="6" stroke="#fff" stroke-width="1.2"/>
-          <circle cx="617" cy="216" r="6" stroke="#fff" stroke-width="1.2"/>
-          <circle cx="617" cy="170" r="6" stroke="#fff" stroke-width="1.2"/>
-        </g>
-        <text x="700" y="395" text-anchor="end" font-family="Google Sans, sans-serif" font-size="10" fill="#4a148c">DP-MLM (ε=10/30)</text>
-        <text x="620" y="240" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="10" fill="#4a148c">DP-MLM (ε=140)</text>
-
-        <!-- Legend -->
-        <g transform="translate(95,55)">
-          <rect x="0" y="0" width="200" height="92" fill="#ffffff" stroke="#bbb" rx="6"/>
-          <circle cx="14" cy="18" r="5.5" fill="#1976d2"/>
-          <text x="26" y="22" font-family="Google Sans, sans-serif" font-size="11" fill="#222">AURA</text>
-          <circle cx="14" cy="40" r="5.5" fill="#ef6c00"/>
-          <text x="26" y="44" font-family="Google Sans, sans-serif" font-size="11" fill="#222">Anonymizer [Staab+ 2025]</text>
-          <circle cx="14" cy="62" r="5.5" fill="#c62828"/>
-          <text x="26" y="66" font-family="Google Sans, sans-serif" font-size="11" fill="#222">Other non-DP baselines</text>
-          <circle cx="14" cy="84" r="5.5" fill="#6a1b9a"/>
-          <text x="26" y="88" font-family="Google Sans, sans-serif" font-size="11" fill="#222">DP-MLM</text>
-        </g>
-
-        <text x="410" y="26" text-anchor="middle" font-family="Google Sans, sans-serif" font-size="14" font-weight="bold" fill="#222">Privacy vs. utility-grid unit recovery (GPT-5.4-mini attacker)</text>
-      </svg>
+      <img src="./static/images/pareto_front.png"
+           alt="Pareto front for privacy success vs. utility-grid unit recovery under GPT-5.4-mini."
+           class="figure-img"/>
       <p class="caption has-text-centered">
-        <em>Schematic re-drawing of Figure 3 in the paper.</em> AURA's adaptive-privacy variants sit
-        nearest the upper-right corner; DP-MLM dominates the high-privacy axis at low utility;
-        Presidio and one-shot rewrites trade utility for leakage.
+        <strong>Figure 3.</strong> Pareto front for privacy success versus unit utility-grid
+        recovery under GPT-5.4-mini, the stronger attacker in our setting. The plot highlights the
+        middle-ground behavior of adaptive <span class="aura-title">AURA</span> variants relative
+        to DP-MLM's low-utility privacy and the high-utility / high-leakage behavior of lighter
+        rewriting methods. The yellow band shows that the variants with fixed privacy scope of 8
+        attributes cluster on the privacy axis.
       </p>
     </div>
 
@@ -754,9 +577,7 @@
         <div class="content">
           <p>
             This website uses the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>
-            template, with layout inspired by the
-            <a href="https://yang-ai-lab.github.io/Deep-Spurious-Regression/">Deep Spurious Regression</a>
-            project page. It is licensed under a
+            template. It is licensed under a
             <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
             Attribution-ShareAlike 4.0 International License</a>.
           </p>
