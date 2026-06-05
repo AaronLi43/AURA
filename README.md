@@ -1,6 +1,8 @@
-# AURA: Adaptive Utility-preserving Re-identification-resistant Anonymization
+# AURA: Anonymization with Utility-Retention Adaptation
 
 [![Paper](https://img.shields.io/badge/arXiv-2605.30848-b31b1b.svg)](https://arxiv.org/abs/2605.30848)
+[![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-AURA-FFD21E)](https://huggingface.co/papers/2605.30848)
+[![Webpage](https://img.shields.io/badge/%F0%9F%8C%90%20website-demo-blue)](https://peach-research-lab.github.io/AURA/)
 [![Python](https://img.shields.io/badge/python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![OpenAI](https://img.shields.io/badge/openai-%3E%3D1.50.0-412991?logo=openai&logoColor=white)](https://pypi.org/project/openai/)
 [![python-dotenv](https://img.shields.io/badge/python--dotenv-%3E%3D1.0.0-000000?logo=python&logoColor=white)](https://pypi.org/project/python-dotenv/)
@@ -20,7 +22,8 @@
 - [📝 Citation](#citation)
 - [📄 License](#license)
 
-
+### 📰 News
+- **[05/06/2026]** Code released on GitHub!
 
 ## ℹ️ About
 
@@ -90,9 +93,13 @@ pip install -r requirements.txt
 cp AURA/.env.example AURA/.env
 nano AURA/.env   # or: cursor AURA/.env
 #   OPENAI_API_KEY=...        required for GPT runs and web-search re-id
-#   OPENROUTER_API_KEY=...    required for OpenRouter / Qwen rewrite runs
+#   OPENROUTER_API_KEY=...    required for OpenRouter / Qwen rewrite runs (You can choose either provider for quick start.)
 
 cd AURA
+
+# 3. Run adaptive scope + GPT with fresh database (More scope and provider options below)
+python run_expanded_privacy.py --reset-db
+# → output/adaptive_attri/nobranch_rewritten.csv
 ```
 
 ### Privacy scope × provider
@@ -114,20 +121,15 @@ Default CSV outputs:
 | Adaptive | `output/adaptive_attri/nobranch_rewritten.csv` |
 | Pure adaptive | `output/pure_adaptive_attri/pure_adaptive_attri_rewritten.csv` |
 
-**Recommended first run** (adaptive scope, GPT):
 
-```bash
-python run_expanded_privacy.py --reset-db
-# → output/adaptive_attri/nobranch_rewritten.csv
-```
-
-#### OpenRouter setup
+#### Choose Other Provider: OpenRouter setup
 
 Set these in `AURA/.env` (or `export` them in your shell).  Web-search re-id
 (steps 1 and 4) still uses OpenAI, so keep both keys configured.
 `NB_DISABLE_REASONING=1` is recommended for Qwen models.
 
 ```bash
+#Copy & paste the following in your .env file for quick start. You can edit those variables for your own setup.
 NB_LLM_PROVIDER=openrouter
 NB_MASKER_MODEL=qwen/qwen3.5-27b
 NB_REFILLER_MODEL=qwen/qwen3.5-27b
@@ -149,6 +151,9 @@ cd ../EVAL
 python direct_intent.py ../AURA/output/adaptive_attri/nobranch_rewritten.csv
 # → web_search_nobranch_rewritten.csv.json
 ```
+
+
+
 
 ### Common CLI flags
 
@@ -196,6 +201,9 @@ For details on every CLI flag, see the per-folder READMEs:
   adaptive variants, and OpenRouter / Qwen on-device runs.
 * [`EVAL/README.md`](EVAL/README.md) —
   re-identification and utility evaluation harness.
+
+### Cost Estimate
+With default CLI setting using GPT-4.1 as model backbone, the cost to anonymize one transcript in Anthropic Interviewer is 1.4 USD (Base Only Scope) and 1.8 USD (Adaptive & Pure adaptive). For evaluation, the average cost to run direct-intent over one transcript using web-search GPT-5.1 is 0.4 USD. The cost estimate is based on our experiment within a subset of 27 transcripts in Anthropic Interviewer dataset. The cost might be slightly different across the whole dataset.
 
 ## 🔬 Reproducing the paper
 
