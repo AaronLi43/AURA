@@ -5,9 +5,7 @@
 [![Webpage](https://img.shields.io/badge/%F0%9F%8C%90%20website-demo-blue)](https://peach-research-lab.github.io/AURA/)
 [![Python](https://img.shields.io/badge/python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![OpenAI](https://img.shields.io/badge/openai-%3E%3D1.50.0-412991?logo=openai&logoColor=white)](https://pypi.org/project/openai/)
-[![python-dotenv](https://img.shields.io/badge/python--dotenv-%3E%3D1.0.0-000000?logo=python&logoColor=white)](https://pypi.org/project/python-dotenv/)
-[![Google GenAI](https://img.shields.io/badge/google--genai-%3E%3D0.3.0-4285F4?logo=google&logoColor=white)](https://pypi.org/project/google-genai/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ![aura_teaser](teaser.png)
 
@@ -23,7 +21,10 @@
 - [📄 License](#license)
 
 ### 📰 News
-- **[05/06/2026]** Code released on GitHub!
+- **[06/01/2026]** [The Paper](https://arxiv.org/abs/2605.30848) titled **LLM Anonymization Against
+Agentic Re-Identification** released on arXiv!
+- **[05/28/2026]** [Project website](https://peach-research-lab.github.io/AURA/) is live! 
+- **[05/26/2026]** Code released on GitHub!
 
 ## ℹ️ About
 
