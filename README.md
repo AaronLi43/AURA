@@ -20,7 +20,7 @@
 - [📝 Citation](#citation)
 - [📄 License](#license)
 
-### 📰 News
+## 📰 News
 - **[06/01/2026]** [The Paper](https://arxiv.org/abs/2605.30848) titled **LLM Anonymization Against
 Agentic Re-Identification** released on arXiv!
 - **[05/28/2026]** [Project website](https://peach-research-lab.github.io/AURA/) is live! 
